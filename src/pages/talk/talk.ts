@@ -13,10 +13,17 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class TalkPage {
 
+  public talk: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
+  private getParams(): void {
+    this.talk = this.navParams.get('talk');
+    console.log(this.talk);
+  }
+
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TalkPage');
+    this.getParams();
   }
 
 }

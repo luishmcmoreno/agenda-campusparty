@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { Talks } from '../../providers/talks';
+import { TalkPage } from '../talk/talk';
 
 /*
   Generated class for the Favorites page.
@@ -38,7 +39,14 @@ export class FavoritesPage {
     });
   }
 
-  public removeFavorite(talk): void {
+  public goToTalk(talk): void {
+    this.navCtrl.push(TalkPage, {
+      talk: talk
+    });
+  }
+
+  public removeFavorite(talk, event): void {
+    event.stopPropagation();
     this.talks.toggleFavorite(talk);
   }
 

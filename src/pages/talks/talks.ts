@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { Talks } from '../../providers/talks';
+import { TalkPage } from '../talk/talk';
 
 /*
   Generated class for the Talks page.
@@ -53,7 +54,14 @@ export class TalksPage {
     });
   }
 
-  public toggleFavorite(talk): void {
+  public goToTalk(talk): void {
+    this.navCtrl.push(TalkPage, {
+      talk: talk
+    });
+  }
+
+  public toggleFavorite(talk, event): void {
+    event.stopPropagation();
     this.talksService.toggleFavorite(talk);
   }
 
