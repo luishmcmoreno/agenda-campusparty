@@ -1,0 +1,25 @@
+<!--
+  Generated template for the Talks page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title> Palestras </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item  text-wrap *ngFor="let talk of talks" (click)="toggleFavorite(talk)">
+        <h2>{{ talk.title }}</h2>
+        <p>{{ talk.stage | stagename }} - {{ talk.date | date:'dd/MM/yyyy - HH:MM' }}</p>
+      <ion-icon name="star" item-right *ngIf="isFavorite(talk)" color="primary"></ion-icon>
+      <ion-icon name="star-outline" item-right *ngIf="!isFavorite(talk)" color="primary"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>
