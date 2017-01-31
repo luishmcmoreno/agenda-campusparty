@@ -5,7 +5,7 @@
   </ion-list-header>
     <ion-item  text-wrap *ngFor="let talk of stage.activities | orderByDate" (click)="goToTalk(talk)" [hidden]="!opened">
         <h2>{{ talk.title }}</h2>
-        <p>{{ talk.stage | stagename }} - {{ talk.date | date:'dd/MM/yyyy - HH:mm' }}</p>
+        <p>{{ talk.stage | stagename }} - <span *ngIf="talk.date.getDate">{{ talk.date | date:'dd/MM/yyyy - HH:mm' }}</span></p>
       <ion-icon name="star" item-right *ngIf="isFavorite(talk)" color="primary"  (click)="toggleFavorite(talk, $event)"></ion-icon>
       <ion-icon name="star-outline" item-right *ngIf="!isFavorite(talk)" color="primary" (click)="toggleFavorite(talk, $event)"></ion-icon>
     </ion-item>

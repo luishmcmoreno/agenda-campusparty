@@ -52,12 +52,21 @@ export class Talks {
         let obs = this.http.get('https://campuse.ro/api/legacy/events/campus-party-brasil-2017/stages').map((res: Response) => res.json());
         obs.subscribe((talks) => {
           talks.forEach((stage) => {
-              for (let t in stage.activities) {
+              for (let t = stage.activities.length - 1; t >= 0; t--) {
                 let talk = stage.activities[t];
-                talk.date = talk.date.replace('+00:00', '');
-                talk.date = new Date(talk.date);
+                let talkDate = talk.date.replace(':00+00:00', '');
+                let splittedTalk = talkDate.split(' ');
+                let date = splittedTalk[0];
+                let time = splittedTalk[1];
+                let splittedDate = date.split('-');
+                let year = splittedDate[0];
+                let month = splittedDate[1];
+                let day = splittedDate[2];
+                let hours = time.split(':')[0];
+                let minutes = time.split(':')[1];
+                talk.date = new Date(year, month - 1, day, hours, minutes, 0, 0);
                 talk.date.setHours(talk.date.getHours() - 2);
-                if (Number(talk.id) === 11075) {
+                if (Number(talk.id) === 11075 || Number(talk.id) === 10402 || Number(talk.id) === 10959) {
                   stage.activities.splice(t, 1);
                 }
               }

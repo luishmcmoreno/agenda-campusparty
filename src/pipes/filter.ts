@@ -29,11 +29,9 @@ export class FilterTalks {
         }
       }
       if (filters.date) {
-        let date = '';
-        date +=  '0' + filters.date.month.value;
-        date += '-' + filters.date.day.text;
-        if (talk.date.indexOf(date) !== -1) {
-        } else {
+        let equalsDate = Number(filters.date.day.value) === talk.date.getDate();
+        let equalsMonth = Number(filters.date.month.value) === (talk.date.getMonth() + 1);
+        if (!equalsDate || !equalsMonth) {
           continue;
         }
       }
