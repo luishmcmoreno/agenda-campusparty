@@ -8,12 +8,30 @@
 
   <ion-navbar color="primary">
     <ion-title>Detalhe da Palestra</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="toggleFavorite(talk, $event)" *ngIf="talk">
+        <ion-icon name="star" item-right *ngIf="isFavorite(talk)"></ion-icon>
+        <ion-icon name="star-outline" item-right *ngIf="!isFavorite(talk)"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <h1> {{ talk?.title }} </h1>
-  <p> {{ talk?.description }}</p>
+<ion-content>
+
+  <img src="{{talk?.mobile_image}}" alt="{{ talk?.title }}" width="100%">
+
+  <div class="content" padding>
+    <p> {{ talk?.date |  date:'dd/MM/yyyy - HH:mm' }} -  {{ talk?.stage | stagename }} </p>
+    <h1> {{ talk?.title }} </h1>
+    <!--<h6> Palco: {{ talk?.stage | stagename }} </h6>-->
+    <h6> Descrição </h6>
+    <p> {{ talk?.description }}</p>
+    <h6> Palestrantes: </h6>
+    <p> {{ talk?.speakers }} </p>
+    <a href="{{ talk?.url }}" target="_blank" ion-button block color="primary">Participar</a>
+
+  </div>
 </ion-content>

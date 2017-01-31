@@ -15,8 +15,10 @@ export class Stagename {
     Takes a value and makes it lowercase.
    */
   transform(stage: string) {
-    let idx = stage.indexOf('CPBR10');
-    
-    return stage.substring(idx, 0);
+    if (stage && stage.indexOf) {
+      let idx = stage.indexOf('CPBR10');
+      return stage.substring(idx, 0);
+    }
+    return stage;
   }
 }

@@ -20,21 +20,69 @@ export class Talks {
   constructor(public http: Http, public storage: Storage) {
   }
 
+  private findTalk(stages, talkId): any {
+    for (let s in stages) {
+      let stage = stages[s];
+      for (let t in stage.activities) {
+        let talk = stage.activities[t];
+        if (talk.id === talkId) {
+          return talk;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  private updateFavorites(stages): void {
+    this.getFavorites().subscribe((favorites) => {
+      for (let f in favorites) {
+        let favorite = favorites[f];
+        let updatedFavorite = this.findTalk(stages, favorite.id);
+        if (!updatedFavorite) continue;
+        favorites[f] = updatedFavorite;
+      }
+      this.favorites = favorites;
+      this.storage.set('favorites', favorites);
+    });
+  }
+
   public getTalks(): Observable<any> {
     return new Observable((observer: Observer<any>) => {
-      let obs = this.http.get('http://campuse.ro/api/legacy/events/campus-party-brasil-2017/schedule').map((res: Response) => res.json());
-      obs.subscribe((talks) => {
-        this.storage.set('talks', talks);
-        observer.next(talks);
-      }, (err) => {
-        console.error(err);
-        this.storage.get('talks').then((talks) => {
+      if (navigator.onLine) {
+        let obs = this.http.get('https://campuse.ro/api/legacy/events/campus-party-brasil-2017/stages').map((res: Response) => res.json());
+        obs.subscribe((talks) => {
+          talks.forEach((stage) => {
+              for (let t in stage.activities) {
+                let talk = stage.activities[t];
+                talk.date = talk.date.replace('+00:00', '');
+                talk.date = new Date(talk.date);
+                talk.date.setHours(talk.date.getHours() - 2);
+                if (Number(talk.id) === 11075) {
+                  stage.activities.splice(t, 1);
+                }
+              }
+          });
+          this.updateFavorites(talks);
+          this.storage.set('talks', talks);
           observer.next(talks);
-        }, (errStorage) => {
-          console.error(errStorage);
-          observer.error(err);
+          // removing unnecessary talk
+        }, (err) => {
+          console.error(err);
+          this.storage.get('talks').then((talks) => {
+            observer.next(talks);
+          }, (errStorage) => {
+            console.error(errStorage);
+            observer.error(errStorage);
+          });
         });
-      });
+      } else {
+          this.storage.get('talks').then((talks) => {
+            observer.next(talks);
+          }, (errStorage) => {
+            console.error(errStorage);
+            observer.error(errStorage);
+          });
+      }
     });
   }
 
@@ -69,6 +117,16 @@ export class Talks {
       this.newFavoriteObserver = observer;
     });
     return this.newFavoriteObservable;
+  }
+
+  public isFavorite(talk): boolean {
+    for (let f in this.favorites) {
+      let favorite = this.favorites[f];
+      if (favorite.id === talk.id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public toggleFavorite(talk): void {

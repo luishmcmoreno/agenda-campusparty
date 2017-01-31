@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Talks } from '../../providers/talks';
 
 /*
   Generated class for the Talk page.
@@ -15,11 +16,24 @@ export class TalkPage {
 
   public talk: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private talksService: Talks
+  ) {}
 
   private getParams(): void {
     this.talk = this.navParams.get('talk');
-    console.log(this.talk);
+  }
+
+  public toggleFavorite(talk, event): void {
+    event.stopPropagation();
+    this.talksService.toggleFavorite(talk);
+  }
+
+
+  public isFavorite(talk): boolean {
+    return this.talksService.isFavorite(talk);
   }
 
   ionViewDidLoad() {

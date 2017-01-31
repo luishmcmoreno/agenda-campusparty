@@ -8,17 +8,26 @@
 
   <ion-navbar color="primary">
     <ion-title>Favoritas</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="openFilters($event)">
+        Filtrar
+      </button>
+      <ion-badge color="danger">{{ numFilters() }}</ion-badge>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <ion-list>
-    <ion-item  text-wrap *ngFor="let talk of favorites" (click)="goToTalk(talk)">
+    <ion-item  text-wrap *ngFor="let talk of favorites | filterTalks:filter" (click)="goToTalk(talk)">
         <h2>{{ talk.title }}</h2>
-        <p>{{ talk.stage | stagename }} - {{ talk.date | date:'dd/MM/yyyy - HH:MM' }}</p>
+        <p>{{ talk.stage | stagename }} - {{ talk.date | date:'dd/MM/yyyy - HH:mm' }}</p>
       <ion-icon name="remove-circle" item-right color="danger" (click)="removeFavorite(talk, $event)"></ion-icon>
+    </ion-item>
+    <ion-item text-wrap *ngIf="(favorites | filterTalks:filter)?.length === 0">
+      Não há palestras favoritas. Verifique seus filtros e/ou adicione palestras na aba "Agenda"
     </ion-item>
   </ion-list>
 </ion-content>

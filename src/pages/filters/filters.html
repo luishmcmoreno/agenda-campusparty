@@ -1,18 +1,21 @@
-<!--
-  Generated template for the Filters page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>filters</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Palco</ion-label>
+      <ion-select [(ngModel)]="stage" (ionChange)="changeProperty('stage', stage)">
+        <ion-option value="">Todos</ion-option>
+        <ion-option value="{{ stage.slug }}" *ngFor="let stage of stages">{{ stage.name | stagename }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Data</ion-label>
+      <ion-datetime (ionCancel)="clearDate()" doneText="Finalizar" cancelText="Limpar" displayFormat="DD/MM" (ionChange)="changeProperty('date', $event)" monthNames="Janeiro, Fevereiro, Mar\u00e7o, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro" pickerFormat="DD MMMM" [(ngModel)]="iondate"></ion-datetime>
+    </ion-item>
+  <ion-item>
+    Limpar
+    <button ion-button outline item-right icon-left (click)="clear()">
+      <ion-icon name="trash"></ion-icon> Limpar
+    </button>
+  </ion-item>
+  </ion-list>
 </ion-content>

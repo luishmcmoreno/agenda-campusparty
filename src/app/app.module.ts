@@ -8,8 +8,12 @@ import { FiltersPage } from '../pages/filters/filters';
 import { TalkPage } from '../pages/talk/talk';
 import { TalksPage } from '../pages/talks/talks';
 import { TabsPage } from '../pages/tabs/tabs';
+import { StageComponent } from '../components/stage/stage';
 import { Talks } from '../providers/talks';
+import { Filter } from '../providers/filter';
 import { Stagename } from '../pipes/stagename';
+import { OrderByDate } from '../pipes/order-by-date';
+import { FilterTalks } from '../pipes/filter';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,10 @@ import { Stagename } from '../pipes/stagename';
     TalkPage,
     TalksPage,
     Stagename,
-    TabsPage
+    TabsPage,
+    StageComponent,
+    OrderByDate,
+    FilterTalks
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -38,6 +45,7 @@ import { Stagename } from '../pipes/stagename';
       provide: ErrorHandler, useClass: IonicErrorHandler
     },
     Talks,
+    Filter,
     Storage
   ]
 })

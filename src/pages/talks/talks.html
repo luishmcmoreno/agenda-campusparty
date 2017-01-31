@@ -7,19 +7,12 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title> Palestras </ion-title>
+    <ion-title> Agenda CPBR10 </ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <ion-list>
-    <ion-item  text-wrap *ngFor="let talk of talks" (click)="goToTalk(talk)">
-        <h2>{{ talk.title }}</h2>
-        <p>{{ talk.stage | stagename }} - {{ talk.date | date:'dd/MM/yyyy - HH:MM' }}</p>
-      <ion-icon name="star" item-right *ngIf="isFavorite(talk)" color="primary"  (click)="toggleFavorite(talk, $event)"></ion-icon>
-      <ion-icon name="star-outline" item-right *ngIf="!isFavorite(talk)" color="primary" (click)="toggleFavorite(talk, $event)"></ion-icon>
-    </ion-item>
-  </ion-list>
+<ion-content>
+  <stage [stage]="stage" *ngFor="let stage of stages"></stage>
 </ion-content>
